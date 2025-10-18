@@ -1343,74 +1343,72 @@
         document.getElementById('bookingForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Get form data using multiple methods to ensure we capture values
-            const form = document.getElementById('bookingForm');
-            const formData = new FormData(form);
-            
-            // Get values using FormData
-            const serviceType = formData.get('serviceType') || '';
-            const sessionDate = formData.get('sessionDate') || '';
-            const sessionTime = formData.get('sessionTime') || '';
-            const sessionLength = formData.get('sessionLength') || '';
-            const playerName = formData.get('playerName') || '';
-            const parentName = formData.get('parentName') || '';
-            const contactEmail = formData.get('contactEmail') || '';
-            const contactPhone = formData.get('contactPhone') || '';
-            const playerAge = formData.get('playerAge') || '';
-            const goals = formData.get('goals') || '';
-            
-            // Fallback: Get values directly from elements if FormData fails
-            const serviceTypeDirect = document.getElementById('serviceType')?.value || '';
-            const sessionDateDirect = document.getElementById('sessionDate')?.value || '';
-            const sessionTimeDirect = document.getElementById('sessionTime')?.value || '';
-            const sessionLengthDirect = document.getElementById('sessionLength')?.value || '';
-            const playerNameDirect = document.getElementById('playerName')?.value || '';
-            const parentNameDirect = document.getElementById('parentName')?.value || '';
-            const contactEmailDirect = document.getElementById('contactEmail')?.value || '';
-            const contactPhoneDirect = document.getElementById('contactPhone')?.value || '';
-            const playerAgeDirect = document.getElementById('playerAge')?.value || '';
-            const goalsDirect = document.getElementById('goals')?.value || '';
-            
-            // Use direct values if FormData values are empty
-            const finalServiceType = serviceType || serviceTypeDirect;
-            const finalSessionDate = sessionDate || sessionDateDirect;
-            const finalSessionTime = sessionTime || sessionTimeDirect;
-            const finalSessionLength = sessionLength || sessionLengthDirect;
-            const finalPlayerName = playerName || playerNameDirect;
-            const finalParentName = parentName || parentNameDirect;
-            const finalContactEmail = contactEmail || contactEmailDirect;
-            const finalContactPhone = contactPhone || contactPhoneDirect;
-            const finalPlayerAge = playerAge || playerAgeDirect;
-            const finalGoals = goals || goalsDirect;
-            
-            // Calculate total
-            const pricing = {
-                'Hitting': 45,
-                'Catching': 40,
-                'Fielding': 40,
-                'Individual': 75
-            };
-            const total = pricing[finalServiceType] * parseFloat(finalSessionLength);
-            
-            // Create detailed SMS message with all the data
-            const smsBody = `New Booking Request:
-Service: ${finalServiceType}
-Date: ${finalSessionDate}
-Time: ${finalSessionTime}
-Length: ${finalSessionLength} hours
-Player: ${finalPlayerName}
-Parent: ${finalParentName}
-Email: ${finalContactEmail}
-Phone: ${finalContactPhone}
-Age: ${finalPlayerAge}
-Goals: ${finalGoals}
+            // Wait a moment to ensure form is fully rendered
+            setTimeout(function() {
+                // Check if elements exist first
+                const serviceTypeEl = document.getElementById('serviceType');
+                const sessionDateEl = document.getElementById('sessionDate');
+                const sessionTimeEl = document.getElementById('sessionTime');
+                const sessionLengthEl = document.getElementById('sessionLength');
+                const playerNameEl = document.getElementById('playerName');
+                const parentNameEl = document.getElementById('parentName');
+                const contactEmailEl = document.getElementById('contactEmail');
+                const contactPhoneEl = document.getElementById('contactPhone');
+                const playerAgeEl = document.getElementById('playerAge');
+                const goalsEl = document.getElementById('goals');
+                
+                // Debug: Check if elements exist
+                alert(`DEBUG - Element Check:
+serviceType exists: ${serviceTypeEl ? 'YES' : 'NO'}
+sessionDate exists: ${sessionDateEl ? 'YES' : 'NO'}
+playerName exists: ${playerNameEl ? 'YES' : 'NO'}
+contactEmail exists: ${contactEmailEl ? 'YES' : 'NO'}`);
+                
+                if (serviceTypeEl && sessionDateEl && playerNameEl && contactEmailEl) {
+                    // Get values
+                    const serviceType = serviceTypeEl.value;
+                    const sessionDate = sessionDateEl.value;
+                    const sessionTime = sessionTimeEl.value;
+                    const sessionLength = sessionLengthEl.value;
+                    const playerName = playerNameEl.value;
+                    const parentName = parentNameEl.value;
+                    const contactEmail = contactEmailEl.value;
+                    const contactPhone = contactPhoneEl.value;
+                    const playerAge = playerAgeEl.value;
+                    const goals = goalsEl.value;
+                    
+                    // Calculate total
+                    const pricing = {
+                        'Hitting': 45,
+                        'Catching': 40,
+                        'Fielding': 40,
+                        'Individual': 75
+                    };
+                    const total = pricing[serviceType] * parseFloat(sessionLength);
+                    
+                    // Create detailed SMS message with all the data
+                    const smsBody = `New Booking Request:
+Service: ${serviceType}
+Date: ${sessionDate}
+Time: ${sessionTime}
+Length: ${sessionLength} hours
+Player: ${playerName}
+Parent: ${parentName}
+Email: ${contactEmail}
+Phone: ${contactPhone}
+Age: ${playerAge}
+Goals: ${goals}
 Total: $${total}`;
-            
-            // Show confirmation with actual values to verify they're captured
-            const confirmed = confirm(`SMS Preview:\n\n${smsBody}\n\nThis will open your messaging app to send this message to Coach Jay. Continue?`);
-            if (confirmed) {
-                window.open(`sms:9512199529&body=${encodeURIComponent(smsBody)}`, '_blank');
-            }
+                    
+                    // Show confirmation with actual values to verify they're captured
+                    const confirmed = confirm(`SMS Preview:\n\n${smsBody}\n\nThis will open your messaging app to send this message to Coach Jay. Continue?`);
+                    if (confirmed) {
+                        window.open(`sms:9512199529&body=${encodeURIComponent(smsBody)}`, '_blank');
+                    }
+                } else {
+                    alert('ERROR: Form elements not found!');
+                }
+            }, 100);
             
             // OPTION 3: Send to email (uncomment to use)
             // const emailBody = `New Booking Request:\n\nService: ${data.serviceType}\nDate: ${data.sessionDate}\nTime: ${data.sessionTime}\nLength: ${data.sessionLength} hours\nPlayer: ${data.playerName}\nParent: ${data.parentName}\nEmail: ${data.contactEmail}\nPhone: ${data.contactPhone}\nAge: ${data.playerAge}\nGoals: ${data.goals}\nTotal: $${total}`;
