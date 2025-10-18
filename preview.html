@@ -1343,9 +1343,17 @@
         document.getElementById('bookingForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Get form data
-            const formData = new FormData(this);
-            const data = Object.fromEntries(formData);
+            // Get form data using direct element access to ensure we get the values
+            const serviceType = document.getElementById('serviceType').value;
+            const sessionDate = document.getElementById('sessionDate').value;
+            const sessionTime = document.getElementById('sessionTime').value;
+            const sessionLength = document.getElementById('sessionLength').value;
+            const playerName = document.getElementById('playerName').value;
+            const parentName = document.getElementById('parentName').value;
+            const contactEmail = document.getElementById('contactEmail').value;
+            const contactPhone = document.getElementById('contactPhone').value;
+            const playerAge = document.getElementById('playerAge').value;
+            const goals = document.getElementById('goals').value;
             
             // Calculate total
             const pricing = {
@@ -1354,24 +1362,20 @@
                 'Fielding': 40,
                 'Individual': 75
             };
-            const total = pricing[data.serviceType] * parseFloat(data.sessionLength);
+            const total = pricing[serviceType] * parseFloat(sessionLength);
             
-            // OPTION 1: Show confirmation (current behavior) - DISABLED
-            // alert(`Booking Request Submitted!\n\n${data.serviceType} Session\n${data.sessionDate} at ${data.sessionTime}\n${data.sessionLength} hour(s)\nTotal: $${total}\n\nCoach Jay will confirm your session within 24 hours.`);
-            
-            // OPTION 2: Send to phone number via SMS - ACTIVE
-            // Coach Jay's phone number: 9512199529
+            // Create detailed SMS message with all the data
             const smsBody = `New Booking Request:
-Service: ${data.serviceType}
-Date: ${data.sessionDate}
-Time: ${data.sessionTime}
-Length: ${data.sessionLength} hours
-Player: ${data.playerName}
-Parent: ${data.parentName}
-Email: ${data.contactEmail}
-Phone: ${data.contactPhone}
-Age: ${data.playerAge}
-Goals: ${data.goals}
+Service: ${serviceType}
+Date: ${sessionDate}
+Time: ${sessionTime}
+Length: ${sessionLength} hours
+Player: ${playerName}
+Parent: ${parentName}
+Email: ${contactEmail}
+Phone: ${contactPhone}
+Age: ${playerAge}
+Goals: ${goals}
 Total: $${total}`;
             
             // Show confirmation before opening SMS
