@@ -659,14 +659,8 @@
                 <a href="#services" class="text-light-slate hover:text-softball-yellow transition-colors duration-300 text-sm lg:text-base">
                     <span class="text-softball-yellow mr-1">01.</span> Services
                 </a>
-                <a href="#about" class="text-light-slate hover:text-softball-yellow transition-colors duration-300 text-sm lg:text-base">
-                    <span class="text-softball-yellow mr-1">02.</span> About
-                </a>
-                <a href="#schedule" class="text-light-slate hover:text-softball-yellow transition-colors duration-300 text-sm lg:text-base">
-                    <span class="text-softball-yellow mr-1">03.</span> Schedule
-                </a>
                 <a href="#contact" class="text-light-slate hover:text-softball-yellow transition-colors duration-300 text-sm lg:text-base">
-                    <span class="text-softball-yellow mr-1">04.</span> Contact
+                    <span class="text-softball-yellow mr-1">02.</span> Contact
                 </a>
                 <button onclick="openBookingModal('General')" class="ml-4 px-4 lg:px-6 py-2 bg-softball-yellow text-navy-blue rounded-lg font-bold text-sm lg:text-base hover:bg-softball-yellow/90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-softball-yellow/25">
                     Book Now
@@ -688,14 +682,8 @@
                 <a href="#services" onclick="closeMobileMenu()" class="block text-light-slate hover:text-softball-yellow transition-colors duration-300 py-2">
                     <span class="text-softball-yellow mr-2">01.</span> Services
                 </a>
-                <a href="#about" onclick="closeMobileMenu()" class="block text-light-slate hover:text-softball-yellow transition-colors duration-300 py-2">
-                    <span class="text-softball-yellow mr-2">02.</span> About
-                </a>
-                <a href="#schedule" onclick="closeMobileMenu()" class="block text-light-slate hover:text-softball-yellow transition-colors duration-300 py-2">
-                    <span class="text-softball-yellow mr-2">03.</span> Schedule
-                </a>
                 <a href="#contact" onclick="closeMobileMenu()" class="block text-light-slate hover:text-softball-yellow transition-colors duration-300 py-2">
-                    <span class="text-softball-yellow mr-2">04.</span> Contact
+                    <span class="text-softball-yellow mr-2">02.</span> Contact
                 </a>
                 <button onclick="openBookingModal('General'); closeMobileMenu();" class="w-full mt-4 px-6 py-3 bg-softball-yellow text-navy-blue rounded-lg font-bold hover:bg-softball-yellow/90 transition-all duration-300">
                     Book Now
@@ -821,7 +809,7 @@
                     </p>
                 </div>
                 
-                <div class="grid lg:grid-cols-3 gap-8 mb-16">
+                <div class="grid lg:grid-cols-2 xl:grid-cols-4 gap-8 mb-16">
                     <!-- Hitting Service Card -->
                     <div class="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 p-8 rounded-xl shadow-xl hover:-translate-y-2 hover:border-softball-yellow/50 transition-all duration-300 flex flex-col relative group">
                         <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
@@ -864,7 +852,7 @@
                             </div>
                             
                             <div class="pt-4 border-t border-slate-700/50">
-                                <div class="text-softball-yellow font-bold text-lg mb-3">$75/hour</div>
+                                <div class="text-softball-yellow font-bold text-lg mb-3">$45/hour</div>
                                 <button onclick="openBookingModal('Hitting')" class="w-full px-6 py-3 bg-softball-yellow/10 border border-softball-yellow/30 text-softball-yellow rounded-lg font-semibold hover:bg-softball-yellow/20 transition-all duration-300 group-hover:border-softball-yellow/60">
                                     Book This Service
                                 </button>
@@ -908,7 +896,7 @@
                             </div>
                             
                             <div class="pt-4 border-t border-slate-700/50">
-                                <div class="text-softball-yellow font-bold text-lg mb-3">$75/hour</div>
+                                <div class="text-softball-yellow font-bold text-lg mb-3">$40/hour</div>
                                 <button onclick="openBookingModal('Catching')" class="w-full px-6 py-3 bg-softball-yellow/10 border border-softball-yellow/30 text-softball-yellow rounded-lg font-semibold hover:bg-softball-yellow/20 transition-all duration-300 group-hover:border-softball-yellow/60">
                                     Book This Service
                                 </button>
@@ -959,36 +947,60 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                
-                <!-- Unique Value Proposition -->
-                <div class="bg-gradient-to-r from-slate-800/50 to-slate-900/50 border border-slate-700/50 rounded-2xl p-8 md:p-12 text-center">
-                    <h3 class="text-3xl font-bold text-light-slate mb-6">
-                        What Makes Us Different?
-                    </h3>
-                    <div class="grid md:grid-cols-3 gap-8 mb-8">
-                        <div class="space-y-3">
-                            <div class="w-16 h-16 bg-softball-yellow/20 rounded-full flex items-center justify-center mx-auto">
-                                <span class="text-3xl">🏆</span>
+
+                    <!-- Individual Training Service Card -->
+                    <div class="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 p-8 rounded-xl shadow-xl hover:-translate-y-2 hover:border-softball-yellow/50 transition-all duration-300 flex flex-col relative group">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-softball-yellow/20 rounded-lg flex items-center justify-center">
+                                <span class="text-2xl">🎯</span>
                             </div>
-                            <h4 class="text-xl font-bold text-light-slate">D1 Experience</h4>
-                            <p class="text-slate-gray">Currently developing players at the highest collegiate level</p>
+                            <span class="text-softball-yellow font-mono text-sm">04</span>
                         </div>
-                        <div class="space-y-3">
-                            <div class="w-16 h-16 bg-softball-yellow/20 rounded-full flex items-center justify-center mx-auto">
-                                <span class="text-3xl">⚾</span>
+                        
+                        <h3 class="text-2xl font-bold text-light-slate mb-3">Individual Training</h3>
+                        <p class="text-slate-gray mb-6 flex-grow">Personalized one-on-one sessions combining hitting, catching, and fielding for comprehensive skill development.</p>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="text-light-slate font-semibold mb-2">What's Included:</h4>
+                                <ul class="space-y-1">
+                                    <li class="flex items-center text-sm text-slate-gray">
+                                        <span class="w-1.5 h-1.5 bg-softball-yellow rounded-full mr-2"></span>
+                                        Customized Training Plan
+                                    </li>
+                                    <li class="flex items-center text-sm text-slate-gray">
+                                        <span class="w-1.5 h-1.5 bg-softball-yellow rounded-full mr-2"></span>
+                                        All Three Areas Combined
+                                    </li>
+                                    <li class="flex items-center text-sm text-slate-gray">
+                                        <span class="w-1.5 h-1.5 bg-softball-yellow rounded-full mr-2"></span>
+                                        Personal Attention
+                                    </li>
+                                    <li class="flex items-center text-sm text-slate-gray">
+                                        <span class="w-1.5 h-1.5 bg-softball-yellow rounded-full mr-2"></span>
+                                        Flexible Scheduling
+                                    </li>
+                                </ul>
                             </div>
-                            <h4 class="text-xl font-bold text-light-slate">Live College Pitching</h4>
-                            <p class="text-slate-gray">The only program where you face current college pitchers consistently</p>
-                        </div>
-                        <div class="space-y-3">
-                            <div class="w-16 h-16 bg-softball-yellow/20 rounded-full flex items-center justify-center mx-auto">
-                                <span class="text-3xl">🎯</span>
+                            
+                            <div class="pt-4 border-t border-slate-700/50">
+                                <div class="text-softball-yellow font-bold text-lg mb-3">$75/hour</div>
+                                <button onclick="openBookingModal('Individual')" class="w-full px-6 py-3 bg-softball-yellow/10 border border-softball-yellow/30 text-softball-yellow rounded-lg font-semibold hover:bg-softball-yellow/20 transition-all duration-300 group-hover:border-softball-yellow/60">
+                                    Book This Service
+                                </button>
                             </div>
-                            <h4 class="text-xl font-bold text-light-slate">Proven Results</h4>
-                            <p class="text-slate-gray">Athletes see measurable improvement in just a few sessions</p>
                         </div>
                     </div>
+                </div>
+                
+                <!-- Call to Action -->
+                <div class="bg-gradient-to-r from-slate-800/50 to-slate-900/50 border border-slate-700/50 rounded-2xl p-8 md:p-12 text-center">
+                    <h3 class="text-3xl font-bold text-light-slate mb-6">
+                        Ready to Elevate Your Game?
+                    </h3>
+                    <p class="text-xl text-slate-gray mb-8 max-w-2xl mx-auto">
+                        Join the only training program where you'll face college pitchers and get D1-level instruction from a current Director of Player Development.
+                    </p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center">
                         <button onclick="openBookingModal('General')" class="px-8 py-4 bg-softball-yellow text-navy-blue rounded-lg font-bold text-lg hover:bg-softball-yellow/90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-softball-yellow/25">
                             🎯 Book Your Session Now
@@ -1006,7 +1018,7 @@
             <div class="max-w-4xl mx-auto">
                 <div class="text-center mb-12">
                     <h2 class="text-3xl font-bold text-light-slate mb-4">
-                        <span class="text-softball-yellow font-mono mr-2">04.</span> Get More Information
+                        <span class="text-softball-yellow font-mono mr-2">02.</span> Get More Information
                     </h2>
                     <p class="text-slate-gray text-lg max-w-2xl mx-auto">
                         Ready to take your game to the next level? Have questions about training? Let's talk about how we can help you achieve your softball goals.
@@ -1169,7 +1181,7 @@
                             <label for="serviceType" class="block text-light-slate mb-2 font-medium">Service Type</label>
                             <select id="serviceType" name="serviceType" class="w-full bg-slate-700/50 border border-slate-600 rounded-lg py-3 px-4 text-light-slate focus:outline-none focus:ring-2 focus:ring-softball-yellow focus:border-transparent">
                                 <option value="Hitting">Hitting Development - $45/hour</option>
-                                <option value="Catching">Catching Excellence - $75/hour</option>
+                                <option value="Catching">Catching Excellence - $40/hour</option>
                                 <option value="Fielding">Fielding Mastery - $40/hour</option>
                                 <option value="Individual">Individual Training - $75/hour</option>
                             </select>
