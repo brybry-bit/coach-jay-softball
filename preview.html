@@ -43,9 +43,609 @@
         .animate-float { animation: float 3s ease-in-out infinite; }
         .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
         html { scroll-behavior: smooth; }
+
+        /* Epic Loading Animation */
+        @keyframes ballSpin {
+            0% { transform: rotate(0deg) translateX(100px) rotate(0deg); }
+            100% { transform: rotate(360deg) translateX(100px) rotate(-360deg); }
+        }
+        
+        @keyframes ballBounce {
+            0%, 100% { transform: translateY(0) scale(1); }
+            50% { transform: translateY(-20px) scale(1.1); }
+        }
+        
+        @keyframes textGlow {
+            0%, 100% { 
+                text-shadow: 0 0 10px #DFFF00, 0 0 20px #DFFF00, 0 0 30px #DFFF00;
+                transform: scale(1);
+            }
+            50% { 
+                text-shadow: 0 0 20px #DFFF00, 0 0 30px #DFFF00, 0 0 40px #DFFF00;
+                transform: scale(1.05);
+            }
+        }
+        
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(100px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+        
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+
+        .loading-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #0A192F 0%, #1a2332 50%, #0A192F 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: opacity 0.5s ease-out;
+        }
+        
+        .loading-screen.fade-out {
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .logo-container {
+            position: relative;
+            width: 400px;
+            height: 300px;
+            margin-bottom: 2rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .hologram-container {
+            position: relative;
+            width: 300px;
+            height: 300px;
+            perspective: 1000px;
+        }
+        
+        .hologram-cube {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 150px;
+            height: 150px;
+            transform-style: preserve-3d;
+            animation: cubeRotate 4s linear infinite;
+            transform: translate(-50%, -50%);
+        }
+        
+        .cube-face {
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            background: linear-gradient(45deg, rgba(223, 255, 0, 0.1), rgba(223, 255, 0, 0.3));
+            border: 2px solid rgba(223, 255, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+        
+        .cube-face:nth-child(1) { transform: rotateY(0deg) translateZ(75px); }
+        .cube-face:nth-child(2) { transform: rotateY(90deg) translateZ(75px); }
+        .cube-face:nth-child(3) { transform: rotateY(180deg) translateZ(75px); }
+        .cube-face:nth-child(4) { transform: rotateY(-90deg) translateZ(75px); }
+        .cube-face:nth-child(5) { transform: rotateX(90deg) translateZ(75px); }
+        .cube-face:nth-child(6) { transform: rotateX(-90deg) translateZ(75px); }
+        
+        .energy-rings {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        .energy-ring {
+            position: absolute;
+            border: 2px solid rgba(223, 255, 0, 0.6);
+            border-radius: 50%;
+            animation: ringPulse 2s ease-in-out infinite;
+        }
+        
+        .energy-ring:nth-child(1) {
+            width: 200px;
+            height: 200px;
+            animation-delay: 0s;
+        }
+        
+        .energy-ring:nth-child(2) {
+            width: 250px;
+            height: 250px;
+            animation-delay: 0.5s;
+        }
+        
+        .energy-ring:nth-child(3) {
+            width: 300px;
+            height: 300px;
+            animation-delay: 1s;
+        }
+        
+        .particle-system {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+        
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #DFFF00;
+            border-radius: 50%;
+            animation: particleFloat 3s ease-in-out infinite;
+        }
+        
+        .particle:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .particle:nth-child(2) { top: 30%; right: 15%; animation-delay: 0.3s; }
+        .particle:nth-child(3) { bottom: 25%; left: 20%; animation-delay: 0.6s; }
+        .particle:nth-child(4) { bottom: 35%; right: 25%; animation-delay: 0.9s; }
+        .particle:nth-child(5) { top: 50%; left: 5%; animation-delay: 1.2s; }
+        .particle:nth-child(6) { top: 60%; right: 5%; animation-delay: 1.5s; }
+        .particle:nth-child(7) { top: 15%; left: 50%; animation-delay: 1.8s; }
+        .particle:nth-child(8) { bottom: 15%; left: 50%; animation-delay: 2.1s; }
+        
+        .neural-network {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 200px;
+            height: 200px;
+        }
+        
+        .neural-node {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #DFFF00;
+            border-radius: 50%;
+            box-shadow: 0 0 10px #DFFF00;
+            animation: nodePulse 2s ease-in-out infinite;
+        }
+        
+        .neural-node:nth-child(1) { top: 20%; left: 20%; animation-delay: 0s; }
+        .neural-node:nth-child(2) { top: 20%; right: 20%; animation-delay: 0.2s; }
+        .neural-node:nth-child(3) { bottom: 20%; left: 20%; animation-delay: 0.4s; }
+        .neural-node:nth-child(4) { bottom: 20%; right: 20%; animation-delay: 0.6s; }
+        .neural-node:nth-child(5) { top: 50%; left: 10%; animation-delay: 0.8s; }
+        .neural-node:nth-child(6) { top: 50%; right: 10%; animation-delay: 1s; }
+        .neural-node:nth-child(7) { top: 10%; left: 50%; animation-delay: 1.2s; }
+        .neural-node:nth-child(8) { bottom: 10%; left: 50%; animation-delay: 1.4s; }
+        
+        .neural-connection {
+            position: absolute;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #DFFF00, transparent);
+            animation: connectionFlow 3s ease-in-out infinite;
+        }
+        
+        .neural-connection:nth-child(9) {
+            top: 20%;
+            left: 20%;
+            width: 60%;
+            transform: rotate(0deg);
+            animation-delay: 0s;
+        }
+        
+        .neural-connection:nth-child(10) {
+            top: 20%;
+            left: 20%;
+            width: 60%;
+            transform: rotate(90deg);
+            animation-delay: 0.5s;
+        }
+        
+        .neural-connection:nth-child(11) {
+            top: 20%;
+            left: 20%;
+            width: 85%;
+            transform: rotate(45deg);
+            animation-delay: 1s;
+        }
+        
+        .neural-connection:nth-child(12) {
+            top: 20%;
+            left: 20%;
+            width: 85%;
+            transform: rotate(-45deg);
+            animation-delay: 1.5s;
+        }
+        
+        @keyframes cubeRotate {
+            0% { transform: translate(-50%, -50%) rotateX(0deg) rotateY(0deg); }
+            25% { transform: translate(-50%, -50%) rotateX(90deg) rotateY(90deg); }
+            50% { transform: translate(-50%, -50%) rotateX(180deg) rotateY(180deg); }
+            75% { transform: translate(-50%, -50%) rotateX(270deg) rotateY(270deg); }
+            100% { transform: translate(-50%, -50%) rotateX(360deg) rotateY(360deg); }
+        }
+        
+        @keyframes ringPulse {
+            0%, 100% { 
+                transform: scale(1);
+                opacity: 0.6;
+            }
+            50% { 
+                transform: scale(1.1);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes particleFloat {
+            0%, 100% { 
+                transform: translateY(0) scale(1);
+                opacity: 0.7;
+            }
+            50% { 
+                transform: translateY(-20px) scale(1.2);
+                opacity: 1;
+            }
+        }
+        
+        @keyframes nodePulse {
+            0%, 100% { 
+                transform: scale(1);
+                box-shadow: 0 0 10px #DFFF00;
+            }
+            50% { 
+                transform: scale(1.3);
+                box-shadow: 0 0 20px #DFFF00, 0 0 30px #DFFF00;
+            }
+        }
+        
+        @keyframes connectionFlow {
+            0%, 100% { 
+                opacity: 0.3;
+                transform: scaleX(0.5);
+            }
+            50% { 
+                opacity: 1;
+                transform: scaleX(1);
+            }
+        }
+        
+        .sparkles {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .sparkle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: #DFFF00;
+            border-radius: 50%;
+            animation: sparkle 2s ease-in-out infinite;
+        }
+        
+        .sparkle:nth-child(1) { top: 20%; left: 20%; animation-delay: 0s; }
+        .sparkle:nth-child(2) { top: 30%; right: 20%; animation-delay: 0.5s; }
+        .sparkle:nth-child(3) { bottom: 20%; left: 30%; animation-delay: 1s; }
+        .sparkle:nth-child(4) { bottom: 30%; right: 30%; animation-delay: 1.5s; }
+        .sparkle:nth-child(5) { top: 50%; left: 10%; animation-delay: 0.3s; }
+        .sparkle:nth-child(6) { top: 50%; right: 10%; animation-delay: 0.8s; }
+        
+        .loading-text {
+            text-align: center;
+            animation: fadeInUp 1s ease-out 0.5s both;
+        }
+        
+        .loading-title {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #DFFF00;
+            margin-bottom: 1rem;
+            animation: textGlow 2s ease-in-out infinite;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+        
+        .loading-subtitle {
+            font-size: 1.2rem;
+            color: #CCD6F6;
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease-out 1s both;
+        }
+        
+        .loading-bar {
+            width: 300px;
+            height: 4px;
+            background: rgba(223, 255, 0, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            animation: fadeInUp 1s ease-out 1.5s both;
+        }
+        
+        .loading-progress {
+            height: 100%;
+            background: linear-gradient(90deg, #DFFF00, #B8D600);
+            border-radius: 2px;
+            width: 0%;
+            animation: loadingProgress 3s ease-out 2s both;
+            box-shadow: 0 0 10px #DFFF00;
+        }
+        
+        @keyframes loadingProgress {
+            to { width: 100%; }
+        }
+        
+        .loading-tagline {
+            font-size: 1rem;
+            color: #8892B0;
+            margin-top: 1rem;
+            animation: fadeInUp 1s ease-out 2.5s both;
+            font-style: italic;
+        }
+        
+        .coach-jay-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(223, 255, 0, 0.1);
+            border: 1px solid rgba(223, 255, 0, 0.3);
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            color: #DFFF00;
+            animation: slideInRight 1s ease-out 1.5s both;
+        }
+        
+        .d1-badge {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            background: rgba(223, 255, 0, 0.1);
+            border: 1px solid rgba(223, 255, 0, 0.3);
+            border-radius: 20px;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            color: #DFFF00;
+            animation: slideInLeft 1s ease-out 1.5s both;
+        }
+
+        /* Mobile Responsiveness for Loading Screen */
+        @media (max-width: 768px) {
+            .loading-title {
+                font-size: 2rem;
+                letter-spacing: 2px;
+            }
+            
+            .loading-subtitle {
+                font-size: 1rem;
+            }
+            
+            .logo-container {
+                width: 300px;
+                height: 250px;
+            }
+            
+            .hologram-container {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .hologram-cube {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .cube-face {
+                width: 120px;
+                height: 120px;
+            }
+            
+            .cube-face:nth-child(1) { transform: rotateY(0deg) translateZ(60px); }
+            .cube-face:nth-child(2) { transform: rotateY(90deg) translateZ(60px); }
+            .cube-face:nth-child(3) { transform: rotateY(180deg) translateZ(60px); }
+            .cube-face:nth-child(4) { transform: rotateY(-90deg) translateZ(60px); }
+            .cube-face:nth-child(5) { transform: rotateX(90deg) translateZ(60px); }
+            .cube-face:nth-child(6) { transform: rotateX(-90deg) translateZ(60px); }
+            
+            .energy-ring:nth-child(1) {
+                width: 160px;
+                height: 160px;
+            }
+            
+            .energy-ring:nth-child(2) {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .energy-ring:nth-child(3) {
+                width: 240px;
+                height: 240px;
+            }
+            
+            .neural-network {
+                width: 160px;
+                height: 160px;
+            }
+            
+            .loading-bar {
+                width: 250px;
+            }
+            
+            .d1-badge, .coach-jay-badge {
+                font-size: 0.8rem;
+                padding: 6px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .loading-title {
+                font-size: 1.5rem;
+                letter-spacing: 1px;
+            }
+            
+            .logo-container {
+                width: 250px;
+                height: 200px;
+            }
+            
+            .hologram-container {
+                width: 200px;
+                height: 200px;
+            }
+            
+            .hologram-cube {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .cube-face {
+                width: 100px;
+                height: 100px;
+            }
+            
+            .cube-face:nth-child(1) { transform: rotateY(0deg) translateZ(50px); }
+            .cube-face:nth-child(2) { transform: rotateY(90deg) translateZ(50px); }
+            .cube-face:nth-child(3) { transform: rotateY(180deg) translateZ(50px); }
+            .cube-face:nth-child(4) { transform: rotateY(-90deg) translateZ(50px); }
+            .cube-face:nth-child(5) { transform: rotateX(90deg) translateZ(50px); }
+            .cube-face:nth-child(6) { transform: rotateX(-90deg) translateZ(50px); }
+            
+            .energy-ring:nth-child(1) {
+                width: 130px;
+                height: 130px;
+            }
+            
+            .energy-ring:nth-child(2) {
+                width: 160px;
+                height: 160px;
+            }
+            
+            .energy-ring:nth-child(3) {
+                width: 190px;
+                height: 190px;
+            }
+            
+            .neural-network {
+                width: 130px;
+                height: 130px;
+            }
+            
+            .loading-bar {
+                width: 200px;
+            }
+        }
     </style>
 </head>
 <body class="bg-navy-blue text-slate-gray font-sans antialiased">
+    <!-- Epic Loading Screen -->
+    <div id="loadingScreen" class="loading-screen">
+        <div class="d1-badge">🏆 D1 DIRECTOR</div>
+        <div class="coach-jay-badge">COACH JAY</div>
+        
+        <div class="logo-container">
+            <div class="hologram-container">
+                <div class="energy-rings">
+                    <div class="energy-ring"></div>
+                    <div class="energy-ring"></div>
+                    <div class="energy-ring"></div>
+                </div>
+                
+                <div class="hologram-cube">
+                    <div class="cube-face"></div>
+                    <div class="cube-face"></div>
+                    <div class="cube-face"></div>
+                    <div class="cube-face"></div>
+                    <div class="cube-face"></div>
+                    <div class="cube-face"></div>
+                </div>
+                
+                <div class="neural-network">
+                    <div class="neural-node"></div>
+                    <div class="neural-node"></div>
+                    <div class="neural-node"></div>
+                    <div class="neural-node"></div>
+                    <div class="neural-node"></div>
+                    <div class="neural-node"></div>
+                    <div class="neural-node"></div>
+                    <div class="neural-node"></div>
+                    <div class="neural-connection"></div>
+                    <div class="neural-connection"></div>
+                    <div class="neural-connection"></div>
+                    <div class="neural-connection"></div>
+                </div>
+                
+                <div class="particle-system">
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                    <div class="particle"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="loading-text">
+            <h1 class="loading-title">SB Player Development</h1>
+            <p class="loading-subtitle">Elite Training for the Next Generation</p>
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+            <p class="loading-tagline">Face College Pitchers • Elevate Your Game</p>
+        </div>
+    </div>
+
     <!-- Header -->
     <header class="fixed top-0 left-0 right-0 z-50 bg-navy-blue/80 backdrop-blur-sm shadow-lg">
         <div class="container mx-auto px-6 md:px-12 lg:px-24 flex justify-between items-center h-20">
@@ -759,6 +1359,49 @@
         // Set minimum date to today
         document.getElementById('sessionDate').min = new Date().toISOString().split('T')[0];
 
+        // Handle form submission
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Calculate total
+            const pricing = {
+                'Hitting': 75,
+                'Catching': 75,
+                'Fielding': 40,
+                'Individual': 75
+            };
+            const total = pricing[data.serviceType] * parseFloat(data.sessionLength);
+            
+            // OPTION 1: Show confirmation (current behavior) - DISABLED
+            // alert(`Booking Request Submitted!\n\n${data.serviceType} Session\n${data.sessionDate} at ${data.sessionTime}\n${data.sessionLength} hour(s)\nTotal: $${total}\n\nCoach Jay will confirm your session within 24 hours.`);
+            
+            // OPTION 2: Send to phone number via SMS - ACTIVE
+            // Coach Jay's phone number: 9512199529
+            const smsBody = `New Booking Request: ${data.serviceType} session on ${data.sessionDate} at ${data.sessionTime} for ${data.sessionLength} hours. Player: ${data.playerName}, Parent: ${data.parentName}, Email: ${data.contactEmail}, Total: $${total}`;
+            window.open(`sms:9512199529&body=${encodeURIComponent(smsBody)}`, '_blank');
+            
+            // OPTION 3: Send to email (uncomment to use)
+            // const emailBody = `New Booking Request:\n\nService: ${data.serviceType}\nDate: ${data.sessionDate}\nTime: ${data.sessionTime}\nLength: ${data.sessionLength} hours\nPlayer: ${data.playerName}\nParent: ${data.parentName}\nEmail: ${data.contactEmail}\nPhone: ${data.contactPhone}\nAge: ${data.playerAge}\nGoals: ${data.goals}\nTotal: $${total}`;
+            // window.location.href = `mailto:coachjay@sbplayerdevelopment.com?subject=New Booking Request&body=${encodeURIComponent(emailBody)}`;
+            
+            // OPTION 4: Send to Google Forms (uncomment to use)
+            // window.open('https://docs.google.com/forms/d/YOUR_FORM_ID/viewform?entry.XXXXXXX=' + encodeURIComponent(data.playerName) + '&entry.YYYYYYY=' + encodeURIComponent(data.contactEmail), '_blank');
+            
+            // OPTION 5: Send to Calendly (uncomment to use)
+            // window.open('https://calendly.com/coachjay/softball-training', '_blank');
+            
+            // OPTION 6: Send to WhatsApp (uncomment to use)
+            // const whatsappMessage = `New Booking Request: ${data.serviceType} session on ${data.sessionDate} at ${data.sessionTime} for ${data.sessionLength} hours. Player: ${data.playerName}, Parent: ${data.parentName}, Email: ${data.contactEmail}, Total: $${total}`;
+            // window.open(`https://wa.me/15551234567?text=${encodeURIComponent(whatsappMessage)}`, '_blank');
+            
+            closeBookingModal();
+            this.reset();
+        });
+
         // Mobile Menu Functions
         function toggleMobileMenu() {
             const mobileMenu = document.getElementById('mobileMenu');
@@ -785,6 +1428,39 @@
             menuIcon.classList.remove('hidden');
             closeIcon.classList.add('hidden');
         }
+
+        // Epic Loading Screen Animation
+        window.addEventListener('load', function() {
+            const loadingScreen = document.getElementById('loadingScreen');
+            
+            // Wait for the loading animation to complete (5.5 seconds total)
+            setTimeout(() => {
+                loadingScreen.classList.add('fade-out');
+                
+                // Remove the loading screen from DOM after fade out
+                setTimeout(() => {
+                    loadingScreen.style.display = 'none';
+                }, 500);
+            }, 5500);
+        });
+
+        // Add some extra sparkle effects
+        function createFloatingSparkles() {
+            const sparkleContainer = document.querySelector('.sparkles');
+            
+            for (let i = 0; i < 3; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                sparkle.style.position = 'absolute';
+                sparkle.style.top = Math.random() * 100 + '%';
+                sparkle.style.left = Math.random() * 100 + '%';
+                sparkle.style.animationDelay = Math.random() * 2 + 's';
+                sparkleContainer.appendChild(sparkle);
+            }
+        }
+
+        // Create floating sparkles after a delay
+        setTimeout(createFloatingSparkles, 2000);
     </script>
 </body>
 </html>
