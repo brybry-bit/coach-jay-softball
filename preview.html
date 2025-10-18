@@ -1343,17 +1343,45 @@
         document.getElementById('bookingForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Get form data using direct element access to ensure we get the values
-            const serviceType = document.getElementById('serviceType').value;
-            const sessionDate = document.getElementById('sessionDate').value;
-            const sessionTime = document.getElementById('sessionTime').value;
-            const sessionLength = document.getElementById('sessionLength').value;
-            const playerName = document.getElementById('playerName').value;
-            const parentName = document.getElementById('parentName').value;
-            const contactEmail = document.getElementById('contactEmail').value;
-            const contactPhone = document.getElementById('contactPhone').value;
-            const playerAge = document.getElementById('playerAge').value;
-            const goals = document.getElementById('goals').value;
+            // Get form data using multiple methods to ensure we capture values
+            const form = document.getElementById('bookingForm');
+            const formData = new FormData(form);
+            
+            // Get values using FormData
+            const serviceType = formData.get('serviceType') || '';
+            const sessionDate = formData.get('sessionDate') || '';
+            const sessionTime = formData.get('sessionTime') || '';
+            const sessionLength = formData.get('sessionLength') || '';
+            const playerName = formData.get('playerName') || '';
+            const parentName = formData.get('parentName') || '';
+            const contactEmail = formData.get('contactEmail') || '';
+            const contactPhone = formData.get('contactPhone') || '';
+            const playerAge = formData.get('playerAge') || '';
+            const goals = formData.get('goals') || '';
+            
+            // Fallback: Get values directly from elements if FormData fails
+            const serviceTypeDirect = document.getElementById('serviceType')?.value || '';
+            const sessionDateDirect = document.getElementById('sessionDate')?.value || '';
+            const sessionTimeDirect = document.getElementById('sessionTime')?.value || '';
+            const sessionLengthDirect = document.getElementById('sessionLength')?.value || '';
+            const playerNameDirect = document.getElementById('playerName')?.value || '';
+            const parentNameDirect = document.getElementById('parentName')?.value || '';
+            const contactEmailDirect = document.getElementById('contactEmail')?.value || '';
+            const contactPhoneDirect = document.getElementById('contactPhone')?.value || '';
+            const playerAgeDirect = document.getElementById('playerAge')?.value || '';
+            const goalsDirect = document.getElementById('goals')?.value || '';
+            
+            // Use direct values if FormData values are empty
+            const finalServiceType = serviceType || serviceTypeDirect;
+            const finalSessionDate = sessionDate || sessionDateDirect;
+            const finalSessionTime = sessionTime || sessionTimeDirect;
+            const finalSessionLength = sessionLength || sessionLengthDirect;
+            const finalPlayerName = playerName || playerNameDirect;
+            const finalParentName = parentName || parentNameDirect;
+            const finalContactEmail = contactEmail || contactEmailDirect;
+            const finalContactPhone = contactPhone || contactPhoneDirect;
+            const finalPlayerAge = playerAge || playerAgeDirect;
+            const finalGoals = goals || goalsDirect;
             
             // Calculate total
             const pricing = {
@@ -1362,24 +1390,24 @@
                 'Fielding': 40,
                 'Individual': 75
             };
-            const total = pricing[serviceType] * parseFloat(sessionLength);
+            const total = pricing[finalServiceType] * parseFloat(finalSessionLength);
             
             // Create detailed SMS message with all the data
             const smsBody = `New Booking Request:
-Service: ${serviceType}
-Date: ${sessionDate}
-Time: ${sessionTime}
-Length: ${sessionLength} hours
-Player: ${playerName}
-Parent: ${parentName}
-Email: ${contactEmail}
-Phone: ${contactPhone}
-Age: ${playerAge}
-Goals: ${goals}
+Service: ${finalServiceType}
+Date: ${finalSessionDate}
+Time: ${finalSessionTime}
+Length: ${finalSessionLength} hours
+Player: ${finalPlayerName}
+Parent: ${finalParentName}
+Email: ${finalContactEmail}
+Phone: ${finalContactPhone}
+Age: ${finalPlayerAge}
+Goals: ${finalGoals}
 Total: $${total}`;
             
-            // Show confirmation before opening SMS
-            const confirmed = confirm(`This will open your messaging app to send a direct message to Coach Jay with your booking details. Continue?`);
+            // Show confirmation with actual values to verify they're captured
+            const confirmed = confirm(`SMS Preview:\n\n${smsBody}\n\nThis will open your messaging app to send this message to Coach Jay. Continue?`);
             if (confirmed) {
                 window.open(`sms:9512199529&body=${encodeURIComponent(smsBody)}`, '_blank');
             }
