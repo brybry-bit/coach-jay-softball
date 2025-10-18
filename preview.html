@@ -1,0 +1,790 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SB Player Development | Train with Coach Jay</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'softball-yellow': '#DFFF00',
+                        'navy-blue': '#0A192F',
+                        'slate-gray': '#8892B0',
+                        'light-slate': '#CCD6F6',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                },
+            },
+        }
+    </script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+        @keyframes pulse-glow {
+            0%, 100% { 
+                opacity: 0.5;
+                transform: scale(1);
+            }
+            50% { 
+                opacity: 0.8;
+                transform: scale(1.05);
+            }
+        }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        .animate-pulse-glow { animation: pulse-glow 2s ease-in-out infinite; }
+        html { scroll-behavior: smooth; }
+    </style>
+</head>
+<body class="bg-navy-blue text-slate-gray font-sans antialiased">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-navy-blue/80 backdrop-blur-sm shadow-lg">
+        <div class="container mx-auto px-6 md:px-12 lg:px-24 flex justify-between items-center h-20">
+            <a href="#home" class="text-xl font-black text-softball-yellow tracking-wider">
+                SBPlayerDev
+            </a>
+            <nav class="hidden md:flex items-center space-x-6 lg:space-x-8">
+                <a href="#services" class="text-light-slate hover:text-softball-yellow transition-colors duration-300 text-sm lg:text-base">
+                    <span class="text-softball-yellow mr-1">01.</span> Services
+                </a>
+                <a href="#about" class="text-light-slate hover:text-softball-yellow transition-colors duration-300 text-sm lg:text-base">
+                    <span class="text-softball-yellow mr-1">02.</span> About
+                </a>
+                <a href="#schedule" class="text-light-slate hover:text-softball-yellow transition-colors duration-300 text-sm lg:text-base">
+                    <span class="text-softball-yellow mr-1">03.</span> Schedule
+                </a>
+                <a href="#contact" class="text-light-slate hover:text-softball-yellow transition-colors duration-300 text-sm lg:text-base">
+                    <span class="text-softball-yellow mr-1">04.</span> Contact
+                </a>
+                <button onclick="openBookingModal('General')" class="ml-4 px-4 lg:px-6 py-2 bg-softball-yellow text-navy-blue rounded-lg font-bold text-sm lg:text-base hover:bg-softball-yellow/90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-softball-yellow/25">
+                    Book Now
+                </button>
+            </nav>
+            <button onclick="toggleMobileMenu()" class="md:hidden text-softball-yellow p-2">
+                <svg id="menuIcon" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+                </svg>
+                <svg id="closeIcon" class="h-6 w-6 hidden" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="md:hidden bg-navy-blue/95 backdrop-blur-sm border-t border-slate-700/50 hidden">
+            <div class="container mx-auto px-4 py-4 space-y-4">
+                <a href="#services" onclick="closeMobileMenu()" class="block text-light-slate hover:text-softball-yellow transition-colors duration-300 py-2">
+                    <span class="text-softball-yellow mr-2">01.</span> Services
+                </a>
+                <a href="#about" onclick="closeMobileMenu()" class="block text-light-slate hover:text-softball-yellow transition-colors duration-300 py-2">
+                    <span class="text-softball-yellow mr-2">02.</span> About
+                </a>
+                <a href="#schedule" onclick="closeMobileMenu()" class="block text-light-slate hover:text-softball-yellow transition-colors duration-300 py-2">
+                    <span class="text-softball-yellow mr-2">03.</span> Schedule
+                </a>
+                <a href="#contact" onclick="closeMobileMenu()" class="block text-light-slate hover:text-softball-yellow transition-colors duration-300 py-2">
+                    <span class="text-softball-yellow mr-2">04.</span> Contact
+                </a>
+                <button onclick="openBookingModal('General'); closeMobileMenu();" class="w-full mt-4 px-6 py-3 bg-softball-yellow text-navy-blue rounded-lg font-bold hover:bg-softball-yellow/90 transition-all duration-300">
+                    Book Now
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 md:px-6 lg:px-12 xl:px-24">
+        <!-- Hero Section -->
+        <section id="home" class="min-h-screen flex items-center pt-16 md:pt-20 relative overflow-hidden">
+            <!-- Background gradient overlay -->
+            <div class="absolute inset-0 bg-gradient-to-br from-navy-blue via-navy-blue to-slate-900 opacity-90"></div>
+            
+            <!-- Animated background elements -->
+            <div class="absolute top-20 left-10 w-32 h-32 bg-softball-yellow/10 rounded-full blur-xl animate-pulse-glow"></div>
+            <div class="absolute bottom-20 right-10 w-48 h-48 bg-softball-yellow/5 rounded-full blur-2xl animate-pulse-glow" style="animation-delay: 1s;"></div>
+            
+            <div class="w-full relative z-10">
+                <div class="grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
+                    <!-- Left side - Main content -->
+                    <div>
+                        <div class="inline-flex items-center bg-softball-yellow/10 border border-softball-yellow/20 rounded-full px-4 py-2 mb-6">
+                            <span class="text-softball-yellow font-mono text-sm">🏆 D1 Director of Player Development</span>
+                        </div>
+                        
+                        <h1 class="text-softball-yellow font-mono text-lg md:text-xl mb-4">Hi, I'm Coach Jay.</h1>
+                        <h2 class="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-black text-light-slate mb-4 leading-tight">
+                            The ONLY Training Where You Face<br />
+                            <span class="text-softball-yellow">College Pitchers</span>
+                        </h2>
+                        <h3 class="text-xl sm:text-2xl md:text-3xl lg:text-4xl font-bold text-slate-gray mb-8">
+                            Elite Development for Serious Athletes
+                        </h3>
+                        
+                        <!-- Key differentiators -->
+                        <div class="grid md:grid-cols-2 gap-4 mb-8">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-2 h-2 bg-softball-yellow rounded-full"></div>
+                                <span class="text-light-slate">Live College Pitching</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-2 h-2 bg-softball-yellow rounded-full"></div>
+                                <span class="text-light-slate">D1-Level Training</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-2 h-2 bg-softball-yellow rounded-full"></div>
+                                <span class="text-light-slate">Proven Results</span>
+                            </div>
+                            <div class="flex items-center space-x-3">
+                                <div class="w-2 h-2 bg-softball-yellow rounded-full"></div>
+                                <span class="text-light-slate">Limited Spots</span>
+                            </div>
+                        </div>
+                        
+                        <p class="text-lg text-slate-gray mb-8 leading-relaxed">
+                            As the Director of Player Development at a Division 1 program, I bring championship-level training to dedicated middle and high school athletes. This is the only program where you'll consistently face current college pitchers in a controlled, instructional environment.
+                        </p>
+                        
+                        <!-- CTA Buttons -->
+                        <div class="flex flex-col sm:flex-row gap-4">
+                            <button onclick="openBookingModal('General')" class="px-8 py-4 bg-softball-yellow text-navy-blue rounded-lg font-bold text-lg hover:bg-softball-yellow/90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-softball-yellow/25 text-center">
+                                🎯 Book Your Session
+                            </button>
+                            <a href="#contact" class="px-8 py-4 border-2 border-softball-yellow text-softball-yellow rounded-lg font-bold text-lg hover:bg-softball-yellow/10 transition-all duration-300 transform hover:scale-105 text-center">
+                                💬 Get More Info
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Right side - Service highlights -->
+                    <div class="space-y-6">
+                        <div class="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-6 hover:border-softball-yellow/50 transition-all duration-300">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-softball-yellow/20 rounded-lg flex items-center justify-center mr-4">
+                                    <span class="text-2xl">⚾</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-light-slate">Hitting Development</h3>
+                            </div>
+                            <p class="text-slate-gray mb-4">High-rep sessions against live college pitching to refine swing mechanics and plate approach.</p>
+                            <div class="text-softball-yellow font-mono text-sm">Most Popular</div>
+                        </div>
+                        
+                        <div class="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-6 hover:border-softball-yellow/50 transition-all duration-300">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-softball-yellow/20 rounded-lg flex items-center justify-center mr-4">
+                                    <span class="text-2xl">🥎</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-light-slate">Catching Excellence</h3>
+                            </div>
+                            <p class="text-slate-gray mb-4">Catch collegiate pitchers to improve framing, blocking, and game-calling skills.</p>
+                            <div class="text-softball-yellow font-mono text-sm">Unique Opportunity</div>
+                        </div>
+                        
+                        <div class="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 rounded-xl p-6 hover:border-softball-yellow/50 transition-all duration-300">
+                            <div class="flex items-center mb-4">
+                                <div class="w-12 h-12 bg-softball-yellow/20 rounded-lg flex items-center justify-center mr-4">
+                                    <span class="text-2xl">🏅</span>
+                                </div>
+                                <h3 class="text-xl font-bold text-light-slate">Fielding Mastery</h3>
+                            </div>
+                            <p class="text-slate-gray mb-4">D1-level infield and outfield drills for gold-glove caliber fundamentals.</p>
+                            <div class="text-softball-yellow font-mono text-sm">Elite Training</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Services Section -->
+        <section id="services" class="py-24 relative">
+            <!-- Background elements -->
+            <div class="absolute top-20 right-20 w-64 h-64 bg-softball-yellow/5 rounded-full blur-3xl"></div>
+            <div class="absolute bottom-20 left-20 w-48 h-48 bg-softball-yellow/10 rounded-full blur-2xl"></div>
+            
+            <div class="relative z-10">
+                <div class="text-center mb-16">
+                    <h2 class="text-4xl md:text-5xl font-bold text-light-slate mb-6">
+                        <span class="text-softball-yellow font-mono mr-2">01.</span> Elite Training Services
+                    </h2>
+                    <p class="text-xl text-slate-gray max-w-3xl mx-auto leading-relaxed">
+                        Choose from our specialized training programs, each designed to give you the competitive edge you need to excel at the next level.
+                    </p>
+                </div>
+                
+                <div class="grid lg:grid-cols-3 gap-8 mb-16">
+                    <!-- Hitting Service Card -->
+                    <div class="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 p-8 rounded-xl shadow-xl hover:-translate-y-2 hover:border-softball-yellow/50 transition-all duration-300 flex flex-col relative group">
+                        <div class="absolute -top-3 left-1/2 transform -translate-x-1/2">
+                            <span class="bg-softball-yellow text-navy-blue px-4 py-1 rounded-full text-sm font-bold">
+                                Most Popular
+                            </span>
+                        </div>
+                        
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-softball-yellow/20 rounded-lg flex items-center justify-center">
+                                <span class="text-2xl">⚾</span>
+                            </div>
+                            <span class="text-softball-yellow font-mono text-sm">01</span>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-light-slate mb-3">Hitting</h3>
+                        <p class="text-slate-gray mb-6 flex-grow">Refine your swing mechanics, timing, and plate approach with high-rep sessions against live college-level pitching.</p>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="text-light-slate font-semibold mb-2">What's Included:</h4>
+                                <ul class="space-y-1">
+                                    <li class="flex items-center text-sm text-slate-gray">
+                                        <span class="w-1.5 h-1.5 bg-softball-yellow rounded-full mr-2"></span>
+                                        Live College Pitching
+                                    </li>
+                                    <li class="flex items-center text-sm text-slate-gray">
+                                        <span class="w-1.5 h-1.5 bg-softball-yellow rounded-full mr-2"></span>
+                                        Swing Analysis
+                                    </li>
+                                    <li class="flex items-center text-sm text-slate-gray">
+                                        <span class="w-1.5 h-1.5 bg-softball-yellow rounded-full mr-2"></span>
+                                        Plate Approach
+                                    </li>
+                                    <li class="flex items-center text-sm text-slate-gray">
+                                        <span class="w-1.5 h-1.5 bg-softball-yellow rounded-full mr-2"></span>
+                                        High-Rep Sessions
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="pt-4 border-t border-slate-700/50">
+                                <div class="text-softball-yellow font-bold text-lg mb-3">$75/hour</div>
+                                <button onclick="openBookingModal('Hitting')" class="w-full px-6 py-3 bg-softball-yellow/10 border border-softball-yellow/30 text-softball-yellow rounded-lg font-semibold hover:bg-softball-yellow/20 transition-all duration-300 group-hover:border-softball-yellow/60">
+                                    Book This Service
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Catching Service Card -->
+                    <div class="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 p-8 rounded-xl shadow-xl hover:-translate-y-2 hover:border-softball-yellow/50 transition-all duration-300 flex flex-col relative group">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-softball-yellow/20 rounded-lg flex items-center justify-center">
+                                <span class="text-2xl">🥎</span>
+                            </div>
+                            <span class="text-softball-yellow font-mono text-sm">02</span>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-light-slate mb-3">Catching</h3>
+                        <p class="text-slate-gray mb-6 flex-grow">Improve your framing, blocking, and game-calling skills by catching collegiate pitchers in a controlled, instructional setting.</p>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="text-light-slate font-semibold mb-2">What's Included:</h4>
+                                <ul class="space-y-1">
+                                    <li class="flex items-center text-sm text-slate-gray">
+                                        <span class="w-1.5 h-1.5 bg-softball-yellow rounded-full mr-2"></span>
+                                        College Pitcher Catching
+                                    </li>
+                                    <li class="flex items-center text-sm text-slate-gray">
+                                        <span class="w-1.5 h-1.5 bg-softball-yellow rounded-full mr-2"></span>
+                                        Framing Techniques
+                                    </li>
+                                    <li class="flex items-center text-sm text-slate-gray">
+                                        <span class="w-1.5 h-1.5 bg-softball-yellow rounded-full mr-2"></span>
+                                        Game Calling
+                                    </li>
+                                    <li class="flex items-center text-sm text-slate-gray">
+                                        <span class="w-1.5 h-1.5 bg-softball-yellow rounded-full mr-2"></span>
+                                        Blocking Drills
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="pt-4 border-t border-slate-700/50">
+                                <div class="text-softball-yellow font-bold text-lg mb-3">$75/hour</div>
+                                <button onclick="openBookingModal('Catching')" class="w-full px-6 py-3 bg-softball-yellow/10 border border-softball-yellow/30 text-softball-yellow rounded-lg font-semibold hover:bg-softball-yellow/20 transition-all duration-300 group-hover:border-softball-yellow/60">
+                                    Book This Service
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Fielding Service Card -->
+                    <div class="bg-slate-800/50 backdrop-blur-sm border border-slate-700/50 p-8 rounded-xl shadow-xl hover:-translate-y-2 hover:border-softball-yellow/50 transition-all duration-300 flex flex-col relative group">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="w-12 h-12 bg-softball-yellow/20 rounded-lg flex items-center justify-center">
+                                <span class="text-2xl">🏅</span>
+                            </div>
+                            <span class="text-softball-yellow font-mono text-sm">03</span>
+                        </div>
+                        
+                        <h3 class="text-2xl font-bold text-light-slate mb-3">Fielding</h3>
+                        <p class="text-slate-gray mb-6 flex-grow">Develop gold-glove caliber fundamentals, footwork, and reaction time through D1-level infield and outfield drills.</p>
+                        
+                        <div class="space-y-4">
+                            <div>
+                                <h4 class="text-light-slate font-semibold mb-2">What's Included:</h4>
+                                <ul class="space-y-1">
+                                    <li class="flex items-center text-sm text-slate-gray">
+                                        <span class="w-1.5 h-1.5 bg-softball-yellow rounded-full mr-2"></span>
+                                        D1-Level Drills
+                                    </li>
+                                    <li class="flex items-center text-sm text-slate-gray">
+                                        <span class="w-1.5 h-1.5 bg-softball-yellow rounded-full mr-2"></span>
+                                        Footwork Training
+                                    </li>
+                                    <li class="flex items-center text-sm text-slate-gray">
+                                        <span class="w-1.5 h-1.5 bg-softball-yellow rounded-full mr-2"></span>
+                                        Reaction Time
+                                    </li>
+                                    <li class="flex items-center text-sm text-slate-gray">
+                                        <span class="w-1.5 h-1.5 bg-softball-yellow rounded-full mr-2"></span>
+                                        Position-Specific
+                                    </li>
+                                </ul>
+                            </div>
+                            
+                            <div class="pt-4 border-t border-slate-700/50">
+                                <div class="text-softball-yellow font-bold text-lg mb-3">$40/hour</div>
+                                <button onclick="openBookingModal('Fielding')" class="w-full px-6 py-3 bg-softball-yellow/10 border border-softball-yellow/30 text-softball-yellow rounded-lg font-semibold hover:bg-softball-yellow/20 transition-all duration-300 group-hover:border-softball-yellow/60">
+                                    Book This Service
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Unique Value Proposition -->
+                <div class="bg-gradient-to-r from-slate-800/50 to-slate-900/50 border border-slate-700/50 rounded-2xl p-8 md:p-12 text-center">
+                    <h3 class="text-3xl font-bold text-light-slate mb-6">
+                        What Makes Us Different?
+                    </h3>
+                    <div class="grid md:grid-cols-3 gap-8 mb-8">
+                        <div class="space-y-3">
+                            <div class="w-16 h-16 bg-softball-yellow/20 rounded-full flex items-center justify-center mx-auto">
+                                <span class="text-3xl">🏆</span>
+                            </div>
+                            <h4 class="text-xl font-bold text-light-slate">D1 Experience</h4>
+                            <p class="text-slate-gray">Currently developing players at the highest collegiate level</p>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="w-16 h-16 bg-softball-yellow/20 rounded-full flex items-center justify-center mx-auto">
+                                <span class="text-3xl">⚾</span>
+                            </div>
+                            <h4 class="text-xl font-bold text-light-slate">Live College Pitching</h4>
+                            <p class="text-slate-gray">The only program where you face current college pitchers consistently</p>
+                        </div>
+                        <div class="space-y-3">
+                            <div class="w-16 h-16 bg-softball-yellow/20 rounded-full flex items-center justify-center mx-auto">
+                                <span class="text-3xl">🎯</span>
+                            </div>
+                            <h4 class="text-xl font-bold text-light-slate">Proven Results</h4>
+                            <p class="text-slate-gray">Athletes see measurable improvement in just a few sessions</p>
+                        </div>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                        <button onclick="openBookingModal('General')" class="px-8 py-4 bg-softball-yellow text-navy-blue rounded-lg font-bold text-lg hover:bg-softball-yellow/90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-softball-yellow/25">
+                            🎯 Book Your Session Now
+                        </button>
+                        <a href="#contact" class="px-8 py-4 border-2 border-softball-yellow text-softball-yellow rounded-lg font-bold text-lg hover:bg-softball-yellow/10 transition-all duration-300 transform hover:scale-105">
+                            💬 Ask Questions
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="py-24 bg-slate-900/50">
+            <div class="max-w-4xl mx-auto">
+                <div class="text-center mb-12">
+                    <h2 class="text-3xl font-bold text-light-slate mb-4">
+                        <span class="text-softball-yellow font-mono mr-2">04.</span> Get More Information
+                    </h2>
+                    <p class="text-slate-gray text-lg max-w-2xl mx-auto">
+                        Ready to take your game to the next level? Have questions about training? Let's talk about how we can help you achieve your softball goals.
+                    </p>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-12">
+                    <!-- Contact Info -->
+                    <div class="space-y-8">
+                        <div>
+                            <h3 class="text-2xl font-bold text-light-slate mb-6">Why Choose Coach Jay?</h3>
+                            <div class="space-y-4">
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-8 h-8 bg-softball-yellow/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                        <span class="text-softball-yellow text-sm">🏆</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-light-slate">D1 Director Experience</h4>
+                                        <p class="text-slate-gray">Currently developing players at the highest collegiate level</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-8 h-8 bg-softball-yellow/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                        <span class="text-softball-yellow text-sm">⚾</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-light-slate">Live College Pitching</h4>
+                                        <p class="text-slate-gray">The only program where you face current college pitchers</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-8 h-8 bg-softball-yellow/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                        <span class="text-softball-yellow text-sm">🎯</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-light-slate">Proven Results</h4>
+                                        <p class="text-slate-gray">Athletes who train with us see measurable improvement</p>
+                                    </div>
+                                </div>
+                                <div class="flex items-start space-x-4">
+                                    <div class="w-8 h-8 bg-softball-yellow/20 rounded-full flex items-center justify-center flex-shrink-0 mt-1">
+                                        <span class="text-softball-yellow text-sm">⭐</span>
+                                    </div>
+                                    <div>
+                                        <h4 class="font-bold text-light-slate">Limited Availability</h4>
+                                        <p class="text-slate-gray">Small group sizes ensure personalized attention</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-6">
+                            <h4 class="font-bold text-light-slate mb-4">Quick Response Guarantee</h4>
+                            <p class="text-slate-gray mb-4">Coach Jay personally responds to all inquiries within 24 hours.</p>
+                            <div class="text-softball-yellow font-mono text-sm">
+                                📧 coachjay@sbplayerdevelopment.com<br />
+                                📱 (555) 123-4567
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Contact Form -->
+                    <div class="bg-slate-800/50 border border-slate-700/50 rounded-xl p-8">
+                        <form class="space-y-6">
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="name" class="block text-light-slate mb-2 font-medium">Your Name *</label>
+                                    <input type="text" id="name" name="name" required class="w-full bg-slate-700/50 border border-slate-600 rounded-lg py-3 px-4 text-light-slate focus:outline-none focus:ring-2 focus:ring-softball-yellow focus:border-transparent" />
+                                </div>
+                                <div>
+                                    <label for="email" class="block text-light-slate mb-2 font-medium">Email *</label>
+                                    <input type="email" id="email" name="email" required class="w-full bg-slate-700/50 border border-slate-600 rounded-lg py-3 px-4 text-light-slate focus:outline-none focus:ring-2 focus:ring-softball-yellow focus:border-transparent" />
+                                </div>
+                            </div>
+
+                            <div class="grid md:grid-cols-2 gap-6">
+                                <div>
+                                    <label for="phone" class="block text-light-slate mb-2 font-medium">Phone Number</label>
+                                    <input type="tel" id="phone" name="phone" class="w-full bg-slate-700/50 border border-slate-600 rounded-lg py-3 px-4 text-light-slate focus:outline-none focus:ring-2 focus:ring-softball-yellow focus:border-transparent" />
+                                </div>
+                                <div>
+                                    <label for="playerAge" class="block text-light-slate mb-2 font-medium">Player's Age *</label>
+                                    <select id="playerAge" name="playerAge" required class="w-full bg-slate-700/50 border border-slate-600 rounded-lg py-3 px-4 text-light-slate focus:outline-none focus:ring-2 focus:ring-softball-yellow focus:border-transparent">
+                                        <option value="">Select Age</option>
+                                        <option value="12-13">12-13 years old</option>
+                                        <option value="14-15">14-15 years old</option>
+                                        <option value="16-17">16-17 years old</option>
+                                        <option value="18+">18+ years old</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="currentLevel" class="block text-light-slate mb-2 font-medium">Current Playing Level *</label>
+                                <select id="currentLevel" name="currentLevel" required class="w-full bg-slate-700/50 border border-slate-600 rounded-lg py-3 px-4 text-light-slate focus:outline-none focus:ring-2 focus:ring-softball-yellow focus:border-transparent">
+                                    <option value="">Select Level</option>
+                                    <option value="Recreation">Recreation League</option>
+                                    <option value="Travel">Travel Ball</option>
+                                    <option value="High School JV">High School JV</option>
+                                    <option value="High School Varsity">High School Varsity</option>
+                                    <option value="Club/Select">Club/Select</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="block text-light-slate mb-3 font-medium">Training Interests *</label>
+                                <div class="grid grid-cols-2 gap-3">
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="checkbox" class="w-4 h-4 text-softball-yellow bg-slate-700 border-slate-600 rounded focus:ring-softball-yellow focus:ring-2" />
+                                        <span class="text-slate-gray text-sm">Hitting Development</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="checkbox" class="w-4 h-4 text-softball-yellow bg-slate-700 border-slate-600 rounded focus:ring-softball-yellow focus:ring-2" />
+                                        <span class="text-slate-gray text-sm">Catching Excellence</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="checkbox" class="w-4 h-4 text-softball-yellow bg-slate-700 border-slate-600 rounded focus:ring-softball-yellow focus:ring-2" />
+                                        <span class="text-slate-gray text-sm">Fielding Mastery</span>
+                                    </label>
+                                    <label class="flex items-center space-x-3 cursor-pointer">
+                                        <input type="checkbox" class="w-4 h-4 text-softball-yellow bg-slate-700 border-slate-600 rounded focus:ring-softball-yellow focus:ring-2" />
+                                        <span class="text-slate-gray text-sm">All Three Areas</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label for="message" class="block text-light-slate mb-2 font-medium">Tell us about your goals *</label>
+                                <textarea id="message" name="message" required rows="4" placeholder="What are your softball goals? What specific areas would you like to improve? Any questions about the training program?" class="w-full bg-slate-700/50 border border-slate-600 rounded-lg py-3 px-4 text-light-slate focus:outline-none focus:ring-2 focus:ring-softball-yellow focus:border-transparent resize-none"></textarea>
+                            </div>
+
+                            <button type="submit" class="w-full px-8 py-4 bg-softball-yellow text-navy-blue rounded-lg font-bold text-lg hover:bg-softball-yellow/90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-softball-yellow/25">
+                                💬 Send Message to Coach Jay
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-slate-800 rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+            <div class="p-6 border-b border-slate-700">
+                <div class="flex justify-between items-center">
+                    <h3 class="text-2xl font-bold text-light-slate">Book Your Session</h3>
+                    <button onclick="closeBookingModal()" class="text-slate-gray hover:text-softball-yellow transition-colors">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="p-6">
+                <form id="bookingForm" class="space-y-6">
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="serviceType" class="block text-light-slate mb-2 font-medium">Service Type</label>
+                            <select id="serviceType" name="serviceType" class="w-full bg-slate-700/50 border border-slate-600 rounded-lg py-3 px-4 text-light-slate focus:outline-none focus:ring-2 focus:ring-softball-yellow focus:border-transparent">
+                                <option value="Hitting">Hitting Development - $75/hour</option>
+                                <option value="Catching">Catching Excellence - $75/hour</option>
+                                <option value="Fielding">Fielding Mastery - $40/hour</option>
+                                <option value="Individual">Individual Training - $75/hour</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="sessionDate" class="block text-light-slate mb-2 font-medium">Preferred Date</label>
+                            <input type="date" id="sessionDate" name="sessionDate" required class="w-full bg-slate-700/50 border border-slate-600 rounded-lg py-3 px-4 text-light-slate focus:outline-none focus:ring-2 focus:ring-softball-yellow focus:border-transparent" />
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="sessionTime" class="block text-light-slate mb-2 font-medium">Preferred Time</label>
+                            <select id="sessionTime" name="sessionTime" required class="w-full bg-slate-700/50 border border-slate-600 rounded-lg py-3 px-4 text-light-slate focus:outline-none focus:ring-2 focus:ring-softball-yellow focus:border-transparent">
+                                <option value="">Select Time</option>
+                                <option value="4:00 PM">4:00 PM</option>
+                                <option value="5:00 PM">5:00 PM</option>
+                                <option value="6:00 PM">6:00 PM</option>
+                                <option value="7:00 PM">7:00 PM</option>
+                                <option value="8:00 PM">8:00 PM</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="sessionLength" class="block text-light-slate mb-2 font-medium">Session Length</label>
+                            <select id="sessionLength" name="sessionLength" required class="w-full bg-slate-700/50 border border-slate-600 rounded-lg py-3 px-4 text-light-slate focus:outline-none focus:ring-2 focus:ring-softball-yellow focus:border-transparent">
+                                <option value="1">1 Hour</option>
+                                <option value="1.5">1.5 Hours</option>
+                                <option value="2">2 Hours</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="playerName" class="block text-light-slate mb-2 font-medium">Player's Name *</label>
+                            <input type="text" id="playerName" name="playerName" required class="w-full bg-slate-700/50 border border-slate-600 rounded-lg py-3 px-4 text-light-slate focus:outline-none focus:ring-2 focus:ring-softball-yellow focus:border-transparent" />
+                        </div>
+                        <div>
+                            <label for="parentName" class="block text-light-slate mb-2 font-medium">Parent/Guardian Name *</label>
+                            <input type="text" id="parentName" name="parentName" required class="w-full bg-slate-700/50 border border-slate-600 rounded-lg py-3 px-4 text-light-slate focus:outline-none focus:ring-2 focus:ring-softball-yellow focus:border-transparent" />
+                        </div>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-2 gap-6">
+                        <div>
+                            <label for="contactEmail" class="block text-light-slate mb-2 font-medium">Email *</label>
+                            <input type="email" id="contactEmail" name="contactEmail" required class="w-full bg-slate-700/50 border border-slate-600 rounded-lg py-3 px-4 text-light-slate focus:outline-none focus:ring-2 focus:ring-softball-yellow focus:border-transparent" />
+                        </div>
+                        <div>
+                            <label for="contactPhone" class="block text-light-slate mb-2 font-medium">Phone Number</label>
+                            <input type="tel" id="contactPhone" name="contactPhone" class="w-full bg-slate-700/50 border border-slate-600 rounded-lg py-3 px-4 text-light-slate focus:outline-none focus:ring-2 focus:ring-softball-yellow focus:border-transparent" />
+                        </div>
+                    </div>
+                    
+                    <div>
+                        <label for="playerAge" class="block text-light-slate mb-2 font-medium">Player's Age *</label>
+                        <select id="playerAge" name="playerAge" required class="w-full bg-slate-700/50 border border-slate-600 rounded-lg py-3 px-4 text-light-slate focus:outline-none focus:ring-2 focus:ring-softball-yellow focus:border-transparent">
+                            <option value="">Select Age</option>
+                            <option value="12-13">12-13 years old</option>
+                            <option value="14-15">14-15 years old</option>
+                            <option value="16-17">16-17 years old</option>
+                            <option value="18+">18+ years old</option>
+                        </select>
+                    </div>
+                    
+                    <div>
+                        <label for="goals" class="block text-light-slate mb-2 font-medium">Training Goals & Notes</label>
+                        <textarea id="goals" name="goals" rows="3" placeholder="What specific areas would you like to focus on? Any previous experience or current challenges?" class="w-full bg-slate-700/50 border border-slate-600 rounded-lg py-3 px-4 text-light-slate focus:outline-none focus:ring-2 focus:ring-softball-yellow focus:border-transparent resize-none"></textarea>
+                    </div>
+                    
+                    <div class="bg-softball-yellow/10 border border-softball-yellow/20 rounded-lg p-4">
+                        <h4 class="font-bold text-light-slate mb-2">Session Summary</h4>
+                        <div id="sessionSummary" class="text-slate-gray text-sm">
+                            Select your service and session length to see pricing
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button type="submit" class="flex-1 px-8 py-4 bg-softball-yellow text-navy-blue rounded-lg font-bold text-lg hover:bg-softball-yellow/90 transition-all duration-300 transform hover:scale-105 shadow-lg hover:shadow-softball-yellow/25">
+                            📅 Book Session
+                        </button>
+                        <button type="button" onclick="closeBookingModal()" class="flex-1 px-8 py-4 border-2 border-slate-600 text-slate-gray rounded-lg font-bold text-lg hover:border-softball-yellow hover:text-softball-yellow transition-all duration-300">
+                            Cancel
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900/50 border-t border-slate-700/50 py-12">
+        <div class="container mx-auto px-4 md:px-6 lg:px-12 xl:px-24 text-center">
+            <div class="text-softball-yellow font-mono text-sm mb-4">
+                SB Player Development | Elite Training for Serious Athletes
+            </div>
+            <div class="text-slate-gray text-sm">
+                © 2024 Coach Jay. All rights reserved.
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Booking Modal Functions
+        function openBookingModal(serviceType) {
+            const modal = document.getElementById('bookingModal');
+            const serviceSelect = document.getElementById('serviceType');
+            
+            // Set the service type if specified
+            if (serviceType && serviceType !== 'General') {
+                serviceSelect.value = serviceType;
+            }
+            
+            modal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+            updateSessionSummary();
+        }
+
+        function closeBookingModal() {
+            const modal = document.getElementById('bookingModal');
+            modal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Update session summary with pricing
+        function updateSessionSummary() {
+            const serviceType = document.getElementById('serviceType').value;
+            const sessionLength = document.getElementById('sessionLength').value;
+            
+            const pricing = {
+                'Hitting': 75,
+                'Catching': 75,
+                'Fielding': 40,
+                'Individual': 75
+            };
+            
+            const serviceNames = {
+                'Hitting': 'Hitting Development',
+                'Catching': 'Catching Excellence',
+                'Fielding': 'Fielding Mastery',
+                'Individual': 'Individual Training'
+            };
+            
+            if (serviceType && sessionLength) {
+                const price = pricing[serviceType] * parseFloat(sessionLength);
+                const summary = document.getElementById('sessionSummary');
+                summary.innerHTML = `
+                    <strong>${serviceNames[serviceType]}</strong><br>
+                    ${sessionLength} hour session<br>
+                    <strong class="text-softball-yellow">Total: $${price}</strong>
+                `;
+            }
+        }
+
+        // Event listeners
+        document.getElementById('serviceType').addEventListener('change', updateSessionSummary);
+        document.getElementById('sessionLength').addEventListener('change', updateSessionSummary);
+
+        // Handle form submission
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(this);
+            const data = Object.fromEntries(formData);
+            
+            // Calculate total
+            const pricing = {
+                'Hitting': 75,
+                'Catching': 75,
+                'Fielding': 40,
+                'Individual': 75
+            };
+            const total = pricing[data.serviceType] * parseFloat(data.sessionLength);
+            
+            // Show confirmation (in a real app, this would send to a backend)
+            alert(`Booking Request Submitted!\n\n${data.serviceType} Session\n${data.sessionDate} at ${data.sessionTime}\n${data.sessionLength} hour(s)\nTotal: $${total}\n\nCoach Jay will confirm your session within 24 hours.`);
+            
+            closeBookingModal();
+            this.reset();
+        });
+
+        // Close modal when clicking outside
+        document.getElementById('bookingModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeBookingModal();
+            }
+        });
+
+        // Set minimum date to today
+        document.getElementById('sessionDate').min = new Date().toISOString().split('T')[0];
+
+        // Mobile Menu Functions
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuIcon = document.getElementById('menuIcon');
+            const closeIcon = document.getElementById('closeIcon');
+            
+            if (mobileMenu.classList.contains('hidden')) {
+                mobileMenu.classList.remove('hidden');
+                menuIcon.classList.add('hidden');
+                closeIcon.classList.remove('hidden');
+            } else {
+                mobileMenu.classList.add('hidden');
+                menuIcon.classList.remove('hidden');
+                closeIcon.classList.add('hidden');
+            }
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const menuIcon = document.getElementById('menuIcon');
+            const closeIcon = document.getElementById('closeIcon');
+            
+            mobileMenu.classList.add('hidden');
+            menuIcon.classList.remove('hidden');
+            closeIcon.classList.add('hidden');
+        }
+    </script>
+</body>
+</html>

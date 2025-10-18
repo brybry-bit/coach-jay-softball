@@ -1,0 +1,25 @@
+{
+  "name": "coach-jay-softball",
+  "version": "1.0.0",
+  "description": "Professional landing page for Coach Jay's elite softball training services",
+  "main": "preview.html",
+  "scripts": {
+    "dev": "python3 -m http.server 8000",
+    "build": "echo 'Static site - no build needed'",
+    "start": "python3 -m http.server 8000"
+  },
+  "keywords": [
+    "softball",
+    "training",
+    "coaching",
+    "sports",
+    "landing-page"
+  ],
+  "author": "Coach Jay",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yourusername/coach-jay-softball.git"
+  },
+  "homepage": "https://coach-jay-softball.vercel.app"
+}
