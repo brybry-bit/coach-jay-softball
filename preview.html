@@ -1278,7 +1278,7 @@
             
             const pricing = {
                 'Hitting': 45,
-                'Catching': 75,
+                'Catching': 40,
                 'Fielding': 40,
                 'Individual': 75
             };
@@ -1316,7 +1316,7 @@
             // Calculate total
             const pricing = {
                 'Hitting': 45,
-                'Catching': 75,
+                'Catching': 40,
                 'Fielding': 40,
                 'Individual': 75
             };
@@ -1350,7 +1350,7 @@
             // Calculate total
             const pricing = {
                 'Hitting': 45,
-                'Catching': 75,
+                'Catching': 40,
                 'Fielding': 40,
                 'Individual': 75
             };
@@ -1361,8 +1361,24 @@
             
             // OPTION 2: Send to phone number via SMS - ACTIVE
             // Coach Jay's phone number: 9512199529
-            const smsBody = `New Booking Request: ${data.serviceType} session on ${data.sessionDate} at ${data.sessionTime} for ${data.sessionLength} hours. Player: ${data.playerName}, Parent: ${data.parentName}, Email: ${data.contactEmail}, Total: $${total}`;
-            window.open(`sms:9512199529&body=${encodeURIComponent(smsBody)}`, '_blank');
+            const smsBody = `New Booking Request:
+Service: ${data.serviceType}
+Date: ${data.sessionDate}
+Time: ${data.sessionTime}
+Length: ${data.sessionLength} hours
+Player: ${data.playerName}
+Parent: ${data.parentName}
+Email: ${data.contactEmail}
+Phone: ${data.contactPhone}
+Age: ${data.playerAge}
+Goals: ${data.goals}
+Total: $${total}`;
+            
+            // Show confirmation before opening SMS
+            const confirmed = confirm(`This will open your messaging app to send a direct message to Coach Jay with your booking details. Continue?`);
+            if (confirmed) {
+                window.open(`sms:9512199529&body=${encodeURIComponent(smsBody)}`, '_blank');
+            }
             
             // OPTION 3: Send to email (uncomment to use)
             // const emailBody = `New Booking Request:\n\nService: ${data.serviceType}\nDate: ${data.sessionDate}\nTime: ${data.sessionTime}\nLength: ${data.sessionLength} hours\nPlayer: ${data.playerName}\nParent: ${data.parentName}\nEmail: ${data.contactEmail}\nPhone: ${data.contactPhone}\nAge: ${data.playerAge}\nGoals: ${data.goals}\nTotal: $${total}`;
